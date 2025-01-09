@@ -1,0 +1,55 @@
+.app {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.add-task input {
+  width: calc(100% - 60px);
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.add-task button {
+  padding: 10px 20px;
+}
+
+.filters button {
+  margin-right: 5px;
+  padding: 5px 10px;
+}
+
+.filters .active {
+  background-color: #007bff;
+  color: white;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.task span.completed {
+  text-decoration: line-through;
+}
+
+.task.low {
+  background-color: #d4edda;
+}
+
+.task.medium {
+  background-color: #fff3cd;
+}
+
+.task.high {
+  background-color: #f8d7da;
+}
