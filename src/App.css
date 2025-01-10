@@ -5,19 +5,39 @@
   font-family: Arial, sans-serif;
 }
 
-.add-task input {
-  width: calc(100% - 60px);
-  padding: 10px;
-  margin-right: 10px;
+.add-task {
+  margin-bottom: 20px;
+  border: none;
 }
 
-.add-task button {
-  padding: 10px 20px;
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.input-wrapper button {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
 }
 
 .filters button {
   margin-right: 5px;
   padding: 5px 10px;
+  outline: none;
+  border: none;
 }
 
 .filters .active {
@@ -32,14 +52,34 @@
 
 .task {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-.task span.completed {
+.task-content {
+  display: flex;
+  align-items: center;
+}
+
+.task-content span {
+  margin-left: 10px;
+  text-align: left;
+  flex: 1;
+}
+
+.task-content span.completed {
   text-decoration: line-through;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+}
+
+.task-actions select {
+  margin-right: 10px;
 }
 
 .task.low {

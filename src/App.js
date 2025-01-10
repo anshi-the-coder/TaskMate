@@ -1,5 +1,6 @@
 // Import necessary dependencies
 import React, { useState, useEffect } from "react";
+import { FaPlus, FaTrashAlt, FaCheck, FaUndo } from "react-icons/fa";
 import "./App.css";
 
 // Main App Component
@@ -30,6 +31,11 @@ const App = () => {
     };
     setTasks([...tasks, task]);
     setNewTask("");
+  };
+
+  // Handle Enter key for adding a task
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") addTask();
   };
 
   // Toggle task completion
@@ -68,13 +74,16 @@ const App = () => {
 
       {/* Add Task Section */}
       <div className="add-task">
-        <input
-          type="text"
-          placeholder="Add a new task..."
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-        />
-        <button onClick={addTask}>Add</button>
+        <div className="input-wrapper">
+          <input
+            type="text"
+            placeholder="Add a new task..."
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+          <button onClick={addTask}><FaPlus /></button>
+        </div>
       </div>
 
       {/* Filter Section */}
@@ -88,21 +97,25 @@ const App = () => {
       <ul className="task-list">
         {filteredTasks.map((task) => (
           <li key={task.id} className={`task ${task.priority}`}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => toggleCompletion(task.id)}
-            />
-            <span className={task.completed ? "completed" : ""}>{task.text}</span>
-            <select
-              value={task.priority}
-              onChange={(e) => updatePriority(task.id, e.target.value)}
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
+            <div className="task-content">
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleCompletion(task.id)}
+              />
+              <span className={task.completed ? "completed" : ""}>{task.text}</span>
+            </div>
+            <div className="task-actions">
+              <select
+                value={task.priority}
+                onChange={(e) => updatePriority(task.id, e.target.value)}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+              <button onClick={() => deleteTask(task.id)}><FaTrashAlt /></button>
+            </div>
           </li>
         ))}
       </ul>
