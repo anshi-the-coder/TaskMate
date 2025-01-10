@@ -98,11 +98,9 @@ const App = () => {
         {filteredTasks.map((task) => (
           <li key={task.id} className={`task ${task.priority}`}>
             <div className="task-content">
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleCompletion(task.id)}
-              />
+            <button onClick={() => toggleCompletion(task.id)}>
+                {task.completed ? <FaUndo title="Mark as Incomplete" /> : <FaCheck title="Mark as Complete" />}
+              </button>
               <span className={task.completed ? "completed" : ""}>{task.text}</span>
             </div>
             <div className="task-actions">
