@@ -7,7 +7,6 @@
 
 .add-task {
   margin-bottom: 20px;
-  border: none;
 }
 
 .input-wrapper {
@@ -20,7 +19,6 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px 0 0 4px;
-  outline: none;
 }
 
 .input-wrapper button {
@@ -36,13 +34,20 @@
 .filters button {
   margin-right: 5px;
   padding: 5px 10px;
-  outline: none;
-  border: none;
 }
 
 .filters .active {
   background-color: #007bff;
   color: white;
+}
+
+.multi-select {
+  margin: 20px 0;
+}
+
+.multi-select button {
+  margin-right: 5px;
+  padding: 5px 10px;
 }
 
 .task-list {
@@ -82,6 +87,14 @@
   margin-right: 10px;
 }
 
+.task-list button {
+  margin-right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 .task.low {
   background-color: #d4edda;
 }
@@ -93,3 +106,4 @@
 .task.high {
   background-color: #f8d7da;
 }
+
