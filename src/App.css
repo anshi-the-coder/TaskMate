@@ -66,6 +66,8 @@
 .task-content {
   display: flex;
   align-items: center;
+  width: 70%;
+  cursor: pointer;
 }
 
 .task-content span {
@@ -107,3 +109,8 @@
   background-color: #f8d7da;
 }
 
+.edit-task {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}

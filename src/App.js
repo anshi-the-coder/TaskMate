@@ -1,7 +1,8 @@
 // Import necessary dependencies
 import React, { useState, useEffect } from "react";
-import { FaPlus, FaTrashAlt, FaCheck, FaUndo, FaMousePointer } from "react-icons/fa";
+import { FaPlus, FaTrashAlt, FaCheck, FaUndo } from "react-icons/fa";
 import "./App.css";
+import Task from "./Components/Task/Task";
 
 const priorityOrder = { high: 1, medium: 2, low: 3 };
 
@@ -106,8 +107,11 @@ const App = () => {
   });
 
   const sortedTasks = [...filteredTasks].sort(
-  (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
-);
+    (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+  );
+  const updateTask = (id, text) => {
+    setTasks(tasks.map((task) => (task.id === id ? { ...task, text } : task)));
+  };
   return (
     <div className="app">
       <h1>Task Management App</h1>
@@ -122,15 +126,32 @@ const App = () => {
             onChange={(e) => setNewTask(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <button onClick={addTask}><FaPlus /></button>
+          <button onClick={addTask}>
+            <FaPlus />
+          </button>
         </div>
       </div>
 
       {/* Filter Section */}
       <div className="filters">
-        <button onClick={() => setFilter("all")} className={filter === "all" ? "active" : ""}>All</button>
-        <button onClick={() => setFilter("completed")} className={filter === "completed" ? "active" : ""}>Completed</button>
-        <button onClick={() => setFilter("incomplete")} className={filter === "incomplete" ? "active" : ""}>Incomplete</button>
+        <button
+          onClick={() => setFilter("all")}
+          className={filter === "all" ? "active" : ""}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("completed")}
+          className={filter === "completed" ? "active" : ""}
+        >
+          Completed
+        </button>
+        <button
+          onClick={() => setFilter("incomplete")}
+          className={filter === "incomplete" ? "active" : ""}
+        >
+          Incomplete
+        </button>
       </div>
 
       {/* Multi-Select Section */}
@@ -140,9 +161,15 @@ const App = () => {
         </button>
         {multiSelect && (
           <>
-            <button onClick={handleMultiDelete}><FaTrashAlt title="Delete Selected" /></button>
-            <button onClick={handleMultiComplete}><FaCheck title="Complete Selected" /></button>
-            <button onClick={handleMultiUndo}><FaUndo title="Undo Selected" /></button>
+            <button onClick={handleMultiDelete}>
+              <FaTrashAlt title="Delete Selected" />
+            </button>
+            <button onClick={handleMultiComplete}>
+              <FaCheck title="Complete Selected" />
+            </button>
+            <button onClick={handleMultiUndo}>
+              <FaUndo title="Undo Selected" />
+            </button>
           </>
         )}
       </div>
@@ -150,32 +177,17 @@ const App = () => {
       {/* Task List Section */}
       <ul className="task-list">
         {sortedTasks.map((task) => (
-          <li key={task.id} className={`task ${task.priority}`}>
-            <div className="task-content">
-              {multiSelect && (
-                <input
-                  type="checkbox"
-                  checked={selectedTasks.includes(task.id)}
-                  onChange={() => handleSelect(task.id)}
-                />
-              )}
-              <button onClick={() => toggleCompletion(task.id)}>
-                {task.completed ? <FaUndo title="Mark as Incomplete" /> : <FaCheck title="Mark as Complete" />}
-              </button>
-              <span className={task.completed ? "completed" : ""}>{task.text}</span>
-            </div>
-            <div className="task-actions">
-              <select
-                value={task.priority}
-                onChange={(e) => updatePriority(task.id, e.target.value)}
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-              <button onClick={() => deleteTask(task.id)}><FaTrashAlt title="Delete Task" /></button>
-            </div>
-          </li>
+          <Task
+            key={task.id}
+            task={task}
+            multiSelect={multiSelect}
+            selectedTasks={selectedTasks}
+            handleSelect={handleSelect}
+            toggleCompletion={toggleCompletion}
+            deleteTask={deleteTask}
+            updatePriority={updatePriority}
+            updateTask={updateTask}
+          />
         ))}
       </ul>
     </div>
