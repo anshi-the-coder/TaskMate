@@ -45,10 +45,6 @@
   margin: 20px 0;
 }
 
-.multi-select button {
-  margin-right: 5px;
-  padding: 5px 10px;
-}
 
 .task-list {
   list-style: none;
@@ -114,3 +110,19 @@
   align-items: center;
   width: 100%;
 }
+.btn{
+      background-color: #04AA6D;
+    border-radius: 5px;
+    font-size: 17px;
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 6px 18px;
+    outline: none;
+    border: 0px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.cancel{
+  background-color: rgb(218, 84, 84);
+}
+

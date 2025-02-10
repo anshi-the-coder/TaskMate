@@ -136,19 +136,19 @@ const App = () => {
       <div className="filters">
         <button
           onClick={() => setFilter("all")}
-          className={filter === "all" ? "active" : ""}
+          className={filter === "all" ? "active btn" : "btn"}
         >
           All
         </button>
-        <button
+        <button      
           onClick={() => setFilter("completed")}
-          className={filter === "completed" ? "active" : ""}
+          className={filter === "completed" ? "btn active" : "btn"}
         >
           Completed
         </button>
         <button
           onClick={() => setFilter("incomplete")}
-          className={filter === "incomplete" ? "active" : ""}
+          className={filter === "incomplete" ?  "btn active" : "btn"}
         >
           Incomplete
         </button>
@@ -156,7 +156,7 @@ const App = () => {
 
       {/* Multi-Select Section */}
       <div className="multi-select">
-        <button onClick={() => setMultiSelect(!multiSelect)}>
+        <button className={`btn ${multiSelect?"cancel":""}`} onClick={() => setMultiSelect(!multiSelect)}>
           {multiSelect ? "Cancel Multi-Select" : "Enable Multi-Select"}
         </button>
         {multiSelect && (
