@@ -57,6 +57,8 @@
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  margin-bottom: 3px;
+  width: 100%;
 }
 
 .task-content {
@@ -126,3 +128,11 @@
   background-color: rgb(218, 84, 84);
 }
 
+.task.dragging {
+  border: 2px dashed red;
+  opacity: 0.7;
+}
+
+.task.hovered {
+  border: 2px dashed green;
+}

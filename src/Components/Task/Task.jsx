@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrashAlt, FaCheck, FaUndo, FaSave } from "react-icons/fa";
 
 function Task({
+  taskId,
   task,
   multiSelect,
   selectedTasks,
@@ -10,6 +11,9 @@ function Task({
   deleteTask,
   updatePriority,
   updateTask,
+  draggedTaskId,
+  hoveredTaskId,
+  setTaskKeyEditing
 }) {
   const [editingTask, setEditingTask] = useState(false);
   const [editedTask, setEditedTask] = useState(task.text);
@@ -17,6 +21,10 @@ function Task({
   const handleEditTask = (e) => {
     setEditedTask(e.target.value);
   };
+
+  useEffect(()=>{
+    setTaskKeyEditing(taskId)
+  },[editingTask,setTaskKeyEditing,taskId])
 
   const saveTask = () => {
     if (editedTask.trim() !== "") {
@@ -30,7 +38,7 @@ function Task({
     }
   };
   return (
-    <li key={task.id} className={`task ${task.priority}`}>
+    <li key={task.id} className={`task ${task.priority} ${task.id === draggedTaskId ? "dragging" : ""} ${task.id === hoveredTaskId ? "hovered" : ""}`}>
       <div className="task-content">
         {multiSelect && (
           <input

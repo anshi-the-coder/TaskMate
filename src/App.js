@@ -13,6 +13,9 @@ const App = () => {
   const [filter, setFilter] = useState("all");
   const [multiSelect, setMultiSelect] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState([]);
+  const [draggedTaskId, setDraggedTaskId] = useState(null);
+  const [hoveredTaskId, setHoveredTaskId] = useState(null);
+  const [taskKeyEditing,setTaskKeyEditing] = useState(null)
 
   // Load tasks from local storage on component mount
   useEffect(() => {
@@ -34,7 +37,7 @@ const App = () => {
       completed: false,
       priority: "medium",
     };
-    setTasks([...tasks, task]);
+    setTasks([...tasks, task]); // ...combine list's element in a single list.
     setNewTask("");
   };
 
@@ -88,7 +91,7 @@ const App = () => {
     );
     setSelectedTasks([]);
   };
-
+  console.log(hoveredTaskId)
   // Handle multiple undo
   const handleMultiUndo = () => {
     setTasks(
@@ -106,15 +109,56 @@ const App = () => {
     return true;
   });
 
-  const sortedTasks = [...filteredTasks].sort(
+  const sortedTasks = [...filteredTasks].sort(  //This sorts the tasks from lowest to highest priority.
     (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
   );
   const updateTask = (id, text) => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, text } : task)));
   };
+
+  const onDragStart = (e, id) => {
+    e.dataTransfer.setData("taskId", id);
+    setDraggedTaskId(id);
+  };
+
+  const onDragEnter = (e, targetId) => {
+    if (draggedTaskId !== targetId) {
+      setHoveredTaskId(targetId);
+    }
+  };
+  
+  const onDragLeave = (e, targetId) => {
+    if (hoveredTaskId === targetId) {
+      setHoveredTaskId(null);
+    }
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const onDrop = (e, targetId) => {
+    e.preventDefault();
+    const draggedTaskId = parseInt(e.dataTransfer.getData("taskId"), 10);
+    if (draggedTaskId === targetId) return;
+
+    const draggedTask = tasks.find((task) => task.id === draggedTaskId);
+    const targetIndex = tasks.findIndex((task) => task.id === targetId);
+    const targetPriority = tasks[targetIndex]?.priority || "medium";
+
+    const updatedTasks = tasks.filter((task) => task.id !== draggedTaskId);
+    draggedTask.priority = targetPriority;
+    updatedTasks.splice(targetIndex, 0, draggedTask);
+
+    setTasks(updatedTasks);
+    setHoveredTaskId(null);
+    setDraggedTaskId(null);
+  };
+  console.log(taskKeyEditing)
+
   return (
     <div className="app">
-      <h1>Task Management App</h1>
+      <h1> <span style={{color:"red"}} >T</span>ask Management App</h1>
 
       {/* Add Task Section */}
       <div className="add-task">
@@ -173,13 +217,23 @@ const App = () => {
           </>
         )}
       </div>
-
+        
       {/* Task List Section */}
       <ul className="task-list">
         {sortedTasks.map((task) => (
+          <div
+          key={task.id}
+          draggable={task.id!==taskKeyEditing}
+          onDragStart={(e) => onDragStart(e, task.id)}
+          onDragOver={onDragOver}
+          onDragEnter={(e) => onDragEnter(e, task.id)}
+          onDragLeave={(e) => onDragLeave(e, task.id)}
+          onDrop={(e) => onDrop(e, task.id)}
+        >
           <Task
             key={task.id}
             task={task}
+            taskId={task.id}
             multiSelect={multiSelect}
             selectedTasks={selectedTasks}
             handleSelect={handleSelect}
@@ -187,7 +241,11 @@ const App = () => {
             deleteTask={deleteTask}
             updatePriority={updatePriority}
             updateTask={updateTask}
+            draggedTaskId={draggedTaskId}
+            hoveredTaskId={hoveredTaskId}
+            setTaskKeyEditing={setTaskKeyEditing}
           />
+          </div>
         ))}
       </ul>
     </div>
